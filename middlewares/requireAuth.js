@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../schemas/User");
+const dotenv = require("dotenv");
+const Favourite = require("../schemas/Favourites");
 
 const requireAuth = async (req, res, next) => {
   // verify authentication
