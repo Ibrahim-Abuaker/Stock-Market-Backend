@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
-const { Schema } = mongoose;
-
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -14,10 +12,15 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  username: {
+    type: String,
+    required: true,
+  },
 });
 
 // creating a custom static method
-userSchema.statics.signup = async function (email, password) {
+
+userSchema.statics.signup = async function (email, password, username) {
   //validation
 
   const exists = await this.findOne({ email });
@@ -26,7 +29,7 @@ userSchema.statics.signup = async function (email, password) {
     throw Error("Email already in use");
   }
 
-  if (!email || !password) {
+  if (!email || !password || !username) {
     throw Error("All fields must be filled");
   }
 
@@ -44,12 +47,13 @@ userSchema.statics.signup = async function (email, password) {
 
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ email, password: hash });
+  const user = await this.create({ username, email, password: hash });
 
   return user;
 };
 
 // static custom login method
+
 userSchema.statics.login = async function (email, password) {
   if (!email || !password) {
     throw Error("All fields must be filled");
@@ -58,7 +62,7 @@ userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
 
   if (!user) {
-    throw Error("Incorrect email");
+    throw Error("User doesn't exist or incorrect email");
   }
 
   const match = await bcrypt.compare(password, user.password);
@@ -70,4 +74,4 @@ userSchema.statics.login = async function (email, password) {
   return user;
 };
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("User", userSchema);
