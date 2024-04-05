@@ -4,14 +4,14 @@ const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./dbinit");
 const userRoutes = require("./routes/userRoutes");
-const postRoutes = require("./routes/postsRoutes");
+const favRoutes = require("./routes/favRoutes");
 
 const PORT = process.env.PORT || 8090;
 
 app.use(cors());
 app.use(express.json());
 app.use("/user", userRoutes);
-app.use("/posts", postRoutes);
+app.use("/favourites", favRoutes);
 
 app.use((req, res, next) => {
   console.log("Request to : ", req.path, ",", req.method);
