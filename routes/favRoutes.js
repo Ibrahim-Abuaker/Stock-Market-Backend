@@ -1,7 +1,7 @@
 const express = require("express");
 const requireAuth = require("../middlewares/requireAuth");
 
-const { getAllFavourites, addFav } = require("../controllers/favControllers");
+const { getAllFavourites, addFav } = require("../controllers/favController");
 
 const router = express.Router();
 
