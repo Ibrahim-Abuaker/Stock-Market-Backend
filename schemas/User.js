@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -16,11 +16,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  favorites: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Favorite",
+    },
+  ],
 });
 
 // creating a custom static method
 
-userSchema.statics.signup = async function (email, password, username) {
+UserSchema.statics.signup = async function (email, password, username) {
   //validation
 
   const exists = await this.findOne({ email });
@@ -54,7 +60,7 @@ userSchema.statics.signup = async function (email, password, username) {
 
 // static custom login method
 
-userSchema.statics.login = async function (email, password) {
+UserSchema.statics.login = async function (email, password) {
   if (!email || !password) {
     throw Error("All fields must be filled");
   }
@@ -74,4 +80,4 @@ userSchema.statics.login = async function (email, password) {
   return user;
 };
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", UserSchema);

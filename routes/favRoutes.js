@@ -1,12 +1,18 @@
+// routes/favourites.js
 const express = require("express");
+const {
+  getAllFavorites,
+  addToFavorites,
+  removeFromFavorites,
+} = require("../controllers/favController");
+
+const app = express.Router();
 const requireAuth = require("../middlewares/requireAuth");
+app.use(requireAuth);
 
-const { getAllFavourites, addFav } = require("../controllers/favController");
+// Route that requires authentication
 
-const router = express.Router();
+app.route("/").get(getAllFavorites).post(addToFavorites);
+app.route("/:favId").delete(removeFromFavorites);
 
-router.use(requireAuth);
-router.route("/").get(getAllFavourites);
-router.route("/").post(addFav);
-
-module.exports = router;
+module.exports = app;
