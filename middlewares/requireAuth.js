@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 const User = require("../schemas/User");
-const dotenv = require("dotenv");
-const Favourite = require("../schemas/Favourites");
 
 const requireAuth = async (req, res, next) => {
   // verify authentication
@@ -17,11 +15,12 @@ const requireAuth = async (req, res, next) => {
   // Verify the token and make sure it hasn't been tampered with
 
   try {
-    const { id } = jwt.verify(token, process.env.SECRET);
+    const { _id } = jwt.verify(token, process.env.SECRET);
+    console.log("id from requireAuth:", _id);
 
     //attaching the user to the request here in the middleware will make it available in whatever comes after the middleware
     //use the select() method to only attach the id rather than the whole document containing email and pass and so on
-    req.user = await User.findOne({ _id: id }).select("_id");
+    req.user = await User.findOne({ _id }).select("_id");
     next();
   } catch (error) {
     console.log(error);

@@ -10,23 +10,19 @@ const newsRoutes = require("./routes/newsRoutes");
 
 const PORT = process.env.PORT || 8090;
 
-app.use(cors());
-app.use(express.json());
-app.use("/user", userRoutes);
-app.use("/favourites", favRoutes);
-app.use("/api/data", stocksRouter);
-app.use("/news", newsRoutes);
-
-app.use((req, res, next) => {
-  console.log("Request to : ", req.path, ",", req.method);
-  next();
-});
-
 connectDB();
 
+app.use(cors());
+app.use(express.json());
+
 app.get("/", (req, res) => {
-  res.json("Welcome to my API");
+  res.send("Welcome to my API");
 });
+
+app.use("/user", userRoutes);
+app.use("/favorites", favRoutes);
+app.use("/api/data", stocksRouter);
+app.use("/news", newsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listen on Port ${PORT}`);
