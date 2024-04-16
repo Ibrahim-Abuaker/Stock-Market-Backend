@@ -118,15 +118,15 @@ exports.getStockHistoricData = async (req, res) => {
   }
 };
 
-const getRandomTicker = () => {
-  const randomIndex = Math.floor(
-    Math.random() * Math.floor(data.stockData.length)
-  );
-  return {
-    ticker: data.stockData[randomIndex].ticker,
-    name: data.stockData[randomIndex].name,
-  };
-};
+// const getRandomTicker = () => {
+//   const randomIndex = Math.floor(
+//     Math.random() * Math.floor(data.stockData.length)
+//   );
+//   return {
+//     ticker: data.stockData[randomIndex].ticker,
+//     name: data.stockData[randomIndex].name,
+//   };
+// };
 
 exports.getRandomStockData = async (req, res) => {
   try {
